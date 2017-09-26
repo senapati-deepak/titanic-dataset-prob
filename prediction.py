@@ -39,3 +39,18 @@ my_solution = pd.DataFrame(my_prediction, PassengerId, columns = ["Survived"])
 print(my_solution)
 print(my_solution.shape)
 my_solution.to_csv("my_solution_one.csv", index_label = ["PassengerId"])
+
+
+features_two = train[["Pclass","Age","Sex","Fare", "SibSp", "Parch", "Embarked"]].values
+my_tree_two = tree.DecisionTreeClassifier(max_depth = 10, min_samples_split = 5, random_state = 1)
+my_tree_two = my_tree_two.fit(features_two, target)
+print(my_tree_two.score(features_two, target))
+test_features_two = test[["Pclass", "Sex", "Age","Fare", "SibSp", "Parch", "Embarked"]].values
+my_prediction_two = my_tree_two.predict(test_features_two)
+print(my_prediction)
+PassengerId =np.array(test["PassengerId"]).astype(int)
+my_solution = pd.DataFrame(my_prediction, PassengerId, columns = ["Survived"])
+print(my_solution)
+print(my_solution.shape)
+my_solution.to_csv("my_solution_two.csv", index_label = ["PassengerId"])
+
