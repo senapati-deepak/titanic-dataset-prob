@@ -1,3 +1,4 @@
+
 import pandas as pd
 import numpy as np
 from sklearn import tree
@@ -38,7 +39,8 @@ PassengerId =np.array(test["PassengerId"]).astype(int)
 my_solution = pd.DataFrame(my_prediction, PassengerId, columns = ["Survived"])
 print(my_solution)
 print(my_solution.shape)
-my_solution.to_csv("my_solution_one.csv", index_label = ["PassengerId"])
+#commented out to prevent any unwanted and accidental changes in my_solution_one.csv
+#my_solution.to_csv("my_solution_one.csv", index_label = ["PassengerId"])
 
 
 features_two = train[["Pclass","Age","Sex","Fare", "SibSp", "Parch", "Embarked"]].values
@@ -52,5 +54,27 @@ PassengerId =np.array(test["PassengerId"]).astype(int)
 my_solution = pd.DataFrame(my_prediction, PassengerId, columns = ["Survived"])
 print(my_solution)
 print(my_solution.shape)
-my_solution.to_csv("my_solution_two.csv", index_label = ["PassengerId"])
+#commented out to prevent any unwanted and accidental changes in my_solution_two.csv
+#my_solution.to_csv("my_solution_two.csv", index_label = ["PassengerId"])
+
+
+train_two = train.copy()
+train_two["family_size"] = train["SibSp"] + train["Parch"] + 1
+target = train_two["Survived"].values
+test_two = test.copy()
+test_two["family_size"] = test["SibSp"] + test["Parch"] + 1
+features_three = train_two[["Pclass", "Sex", "Age", "Fare", "SibSp", "Parch", "family_size", "Embarked"]].values
+my_tree_three = tree.DecisionTreeClassifier(max_depth = 10, min_samples_split = 5, random_state = 1)
+my_tree_three = my_tree_three.fit(features_three , target)
+print(my_tree_three.score(features_three, target))
+test_features_three = test_two[["Pclass", "Sex", "Age", "Fare", "SibSp", "Parch", "family_size", "Embarked"]].values
+my_prediction_three = my_tree_three.predict(test_features_three)
+print(my_prediction_three)
+PassengerId =np.array(test_two["PassengerId"]).astype(int)
+my_solution = pd.DataFrame(my_prediction, PassengerId, columns = ["Survived"])
+print(my_solution)
+print(my_solution.shape)
+#commented out to prevent any unwanted and accidental changes in my_solution_three.csv
+my_solution.to_csv("my_solution_three.csv", index_label = ["PassengerId"])
+
 
