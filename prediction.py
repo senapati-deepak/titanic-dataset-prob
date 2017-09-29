@@ -2,6 +2,7 @@
 import pandas as pd
 import numpy as np
 from sklearn import tree
+from sklearn.ensemble import RandomForestClassifier
 
 train = pd.read_csv("train.csv")
 test = pd.read_csv("test.csv")
@@ -49,9 +50,9 @@ my_tree_two = my_tree_two.fit(features_two, target)
 print(my_tree_two.score(features_two, target))
 test_features_two = test[["Pclass", "Sex", "Age","Fare", "SibSp", "Parch", "Embarked"]].values
 my_prediction_two = my_tree_two.predict(test_features_two)
-print(my_prediction)
+print(my_prediction_two)
 PassengerId =np.array(test["PassengerId"]).astype(int)
-my_solution = pd.DataFrame(my_prediction, PassengerId, columns = ["Survived"])
+my_solution = pd.DataFrame(my_prediction_two, PassengerId, columns = ["Survived"])
 print(my_solution)
 print(my_solution.shape)
 #commented out to prevent any unwanted and accidental changes in my_solution_two.csv
@@ -63,18 +64,30 @@ train_two["family_size"] = train["SibSp"] + train["Parch"] + 1
 target = train_two["Survived"].values
 test_two = test.copy()
 test_two["family_size"] = test["SibSp"] + test["Parch"] + 1
-features_three = train_two[["Pclass", "Sex", "Age", "Fare", "SibSp", "Parch", "family_size", "Embarked"]].values
+features_three = train_two[["Pclass", "Sex", "Age", "Fare", "family_size", "Embarked"]].values
 my_tree_three = tree.DecisionTreeClassifier(max_depth = 10, min_samples_split = 5, random_state = 1)
 my_tree_three = my_tree_three.fit(features_three , target)
 print(my_tree_three.score(features_three, target))
-test_features_three = test_two[["Pclass", "Sex", "Age", "Fare", "SibSp", "Parch", "family_size", "Embarked"]].values
+test_features_three = test_two[["Pclass", "Sex", "Age", "Fare", "family_size", "Embarked"]].values
 my_prediction_three = my_tree_three.predict(test_features_three)
 print(my_prediction_three)
 PassengerId =np.array(test_two["PassengerId"]).astype(int)
-my_solution = pd.DataFrame(my_prediction, PassengerId, columns = ["Survived"])
+my_solution = pd.DataFrame(my_prediction_three, PassengerId, columns = ["Survived"])
 print(my_solution)
 print(my_solution.shape)
 #commented out to prevent any unwanted and accidental changes in my_solution_three.csv
 my_solution.to_csv("my_solution_three.csv", index_label = ["PassengerId"])
+
+
+
+
+
+
+
+
+
+
+
+
 
 
