@@ -1,93 +1,21 @@
-
 import pandas as pd
 import numpy as np
-from sklearn import tree
+import random as rnd
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC, LinearSVC
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.naive_bayes import GaussianNB
+from sklearn.linear_model import Perceptron
+from sklearn.linear_model import SGDClassifier
+from sklearn.tree import DecisionTreeClassifier
 
 train = pd.read_csv("train.csv")
 test = pd.read_csv("test.csv")
-#print(train.describe())
-pd.options.mode.chained_assignment = None
-train["Age"] = train["Age"].fillna(train["Age"].median())
-train["Sex"][train["Sex"] == "male"] = 0
-train["Sex"][train["Sex"] == "female"] = 1
-train["Embarked"] = train["Embarked"].fillna("S")
-train["Embarked"][train["Embarked"] == "S"] = 0
-train["Embarked"][train["Embarked"] == "C"] = 1
-train["Embarked"][train["Embarked"] == "Q"] = 2
-#print(train["Sex"])
-#print(train["Embarked"])
-test["Sex"][test["Sex"] == "male"] = 0
-test["Sex"][test["Sex"] == "female"] = 1
-test["Age"] = test["Age"].fillna(test["Age"].median())
-test["Embarked"][test["Embarked"] == "S"] = 0
-test["Embarked"][test["Embarked"] == "C"] = 1
-test["Embarked"][test["Embarked"] == "Q"] = 2
-
-train["Child"] = 0
-train["Child"][train["Age"] < 18] = 1
-target = train["Survived"].values
-features_one = train[["Pclass", "Sex", "Age", "Fare"]].values
-my_tree_one = tree.DecisionTreeClassifier()
-my_tree_one = my_tree_one.fit(features_one, target)
-#print(my_tree_one.feature_importances_)
-#print(my_tree_one.score(features_one, target))
-test.Fare[152] = test["Fare"].median()
-test_features = test[["Pclass", "Sex", "Age","Fare"]].values
-my_prediction = my_tree_one.predict(test_features)
-print(my_prediction)
-PassengerId =np.array(test["PassengerId"]).astype(int)
-my_solution = pd.DataFrame(my_prediction, PassengerId, columns = ["Survived"])
-print(my_solution)
-print(my_solution.shape)
-#commented out to prevent any unwanted and accidental changes in my_solution_one.csv
-#my_solution.to_csv("my_solution_one.csv", index_label = ["PassengerId"])
-
-
-features_two = train[["Pclass","Age","Sex","Fare", "SibSp", "Parch", "Embarked"]].values
-my_tree_two = tree.DecisionTreeClassifier(max_depth = 10, min_samples_split = 5, random_state = 1)
-my_tree_two = my_tree_two.fit(features_two, target)
-print(my_tree_two.score(features_two, target))
-test_features_two = test[["Pclass", "Sex", "Age","Fare", "SibSp", "Parch", "Embarked"]].values
-my_prediction_two = my_tree_two.predict(test_features_two)
-print(my_prediction_two)
-PassengerId =np.array(test["PassengerId"]).astype(int)
-my_solution = pd.DataFrame(my_prediction_two, PassengerId, columns = ["Survived"])
-print(my_solution)
-print(my_solution.shape)
-#commented out to prevent any unwanted and accidental changes in my_solution_two.csv
-#my_solution.to_csv("my_solution_two.csv", index_label = ["PassengerId"])
-
-
-train_two = train.copy()
-train_two["family_size"] = train["SibSp"] + train["Parch"] + 1
-target = train_two["Survived"].values
-test_two = test.copy()
-test_two["family_size"] = test["SibSp"] + test["Parch"] + 1
-features_three = train_two[["Pclass", "Sex", "Age", "Fare", "family_size", "Embarked"]].values
-my_tree_three = tree.DecisionTreeClassifier(max_depth = 10, min_samples_split = 5, random_state = 1)
-my_tree_three = my_tree_three.fit(features_three , target)
-print(my_tree_three.score(features_three, target))
-test_features_three = test_two[["Pclass", "Sex", "Age", "Fare", "family_size", "Embarked"]].values
-my_prediction_three = my_tree_three.predict(test_features_three)
-print(my_prediction_three)
-PassengerId =np.array(test_two["PassengerId"]).astype(int)
-my_solution = pd.DataFrame(my_prediction_three, PassengerId, columns = ["Survived"])
-print(my_solution)
-print(my_solution.shape)
-#commented out to prevent any unwanted and accidental changes in my_solution_three.csv
-my_solution.to_csv("my_solution_three.csv", index_label = ["PassengerId"])
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+combine = [train, test]
+print(train.columns.values)
+print(test.columns.values)
+print(train.head(10))
+print(train.tail(10))
