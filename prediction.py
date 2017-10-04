@@ -149,3 +149,12 @@ print(decision_tree.score(X_train, Y_train))
 my_solution = pd.DataFrame({"PassengerId": test["PassengerId"],"Survived": Y_pred})
 print(my_solution.shape)
 my_solution.to_csv("decision_tree.csv", index = False)
+
+random_forest = RandomForestClassifier(n_estimators=100, min_samples_split = 5, random_state = 1)
+random_forest.fit(X_train, Y_train)
+Y_pred = random_forest.predict(X_test)
+print(random_forest.score(X_train, Y_train))
+my_solution = pd.DataFrame({"PassengerId": test["PassengerId"],"Survived": Y_pred})
+print(my_solution.shape)
+my_solution.to_csv("random_forest.csv", index = False)
+
