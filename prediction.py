@@ -127,3 +127,17 @@ print(train.head(10))
 print(test.head(10))
 test = test.drop(['Name'], axis = 1)
 test.info() 
+
+X_train = train.drop("Survived", axis=1)
+Y_train = train["Survived"]
+X_test  = test.drop("PassengerId", axis=1).copy()
+print(X_train.shape, Y_train.shape, X_test.shape)
+
+
+linear_svc = LinearSVC()
+linear_svc.fit(X_train, Y_train)
+Y_pred = linear_svc.predict(X_test)
+print((linear_svc.score(X_train, Y_train)))
+my_solution = pd.DataFrame({"PassengerId": test["PassengerId"],"Survived": Y_pred})
+print(my_solution.shape)
+my_solution.to_csv("linear_svc.csv", index = False)
