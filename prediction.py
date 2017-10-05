@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC, LinearSVC
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
 
 train = pd.read_csv("train.csv")
@@ -163,3 +162,10 @@ my_solution = pd.DataFrame({"PassengerId": test["PassengerId"],"Survived": Y_pre
 print(my_solution.shape)
 my_solution.to_csv("support_vector_machines.csv", index = False)
 
+logreg = LogisticRegression()
+logreg.fit(X_train, Y_train)
+Y_pred = logreg.predict(X_test)
+print(logreg.score(X_train, Y_train))
+my_solution = pd.DataFrame({"PassengerId": test["PassengerId"],"Survived": Y_pred})
+print(my_solution.shape)
+my_solution.to_csv("LogisticRegression.csv", index = False)
