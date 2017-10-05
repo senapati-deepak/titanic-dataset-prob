@@ -7,9 +7,6 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC, LinearSVC
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.naive_bayes import GaussianNB
-from sklearn.linear_model import Perceptron
-from sklearn.linear_model import SGDClassifier
 from sklearn.tree import DecisionTreeClassifier
 
 train = pd.read_csv("train.csv")
@@ -157,4 +154,12 @@ print(random_forest.score(X_train, Y_train))
 my_solution = pd.DataFrame({"PassengerId": test["PassengerId"],"Survived": Y_pred})
 print(my_solution.shape)
 my_solution.to_csv("random_forest.csv", index = False)
+
+svc = SVC()
+svc.fit(X_train, Y_train)
+Y_pred = svc.predict(X_test)
+print(svc.score(X_train, Y_train))
+my_solution = pd.DataFrame({"PassengerId": test["PassengerId"],"Survived": Y_pred})
+print(my_solution.shape)
+my_solution.to_csv("support_vector_machines.csv", index = False)
 
